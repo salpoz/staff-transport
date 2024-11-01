@@ -1,9 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
-import BusSummary from "../components/BusSummary";
-import FerrySummary from "../components/FerrySummary";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Colors } from "../constants/GlobalStyles";
+import { Colors } from "../constants/colors";
+import AllBusRoutesScreen from "./AllBusRoutesScreen";
+import AllFerryRoutesScreen from "./AllFerryRoutesScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -11,20 +11,25 @@ function HomeScreen() {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarStyle: { backgroundColor: Colors.primary500, height: 100 },
+        tabBarStyle: {
+          backgroundColor: Colors.primary600,
+        },
         tabBarLabelStyle: { fontSize: 16 },
-        headerStyle: { backgroundColor: Colors.primary500, height: 100 },
-        headerTitleStyle: { color: "white", fontSize: 22 },
-        tabBarActiveTintColor: "white",
+        headerTitleAlign: "center",
+        headerStyle: {
+          backgroundColor: Colors.primary600,
+          height: 90,
+        },
+        headerTitleStyle: { color: Colors.primary100, fontSize: 22 },
+        tabBarActiveTintColor: Colors.primary100,
         tabBarShowLabel: false,
       }}
     >
       <Tab.Screen
         name="bus"
-        component={BusSummary}
+        component={AllBusRoutesScreen}
         options={{
-          title: "Bus Routes",
-          // tabBarLabel: "Bus",
+          title: "Bus",
           tabBarIcon: ({ focused, color, size }) => {
             return <Ionicons name="bus-outline" size={24} color={color} />;
           },
@@ -33,11 +38,9 @@ function HomeScreen() {
 
       <Tab.Screen
         name="ferry"
-        component={FerrySummary}
+        component={AllFerryRoutesScreen}
         options={{
-          title: "Ferry Routes",
-          // tabBarLabel: "Ferry",
-
+          title: "Ferry",
           tabBarIcon: ({ focused, color, size }) => {
             return <Ionicons name="boat-outline" color={color} size={24} />;
           },

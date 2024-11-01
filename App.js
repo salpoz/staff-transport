@@ -3,10 +3,9 @@ import HomeScreen from "./screens/HomeScreen";
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import BusScreen from "./screens/BusScreen";
-import FerryScreen from "./screens/FerryScreen";
-import { Colors } from "./constants/GlobalStyles";
+import { Colors } from "./constants/colors";
 import ScheduleContextProvider from "./store/schedule-context";
+import FullScheduleScreen from "./screens/FullScheduleScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,7 +16,8 @@ export default function App() {
       <ScheduleContextProvider>
         <Stack.Navigator
           screenOptions={{
-            headerStyle: { backgroundColor: Colors.primary500, height: 100 },
+            headerStyle: { backgroundColor: Colors.primary500, height: 50 },
+            headerTitleAlign: "center",
             headerTitleStyle: { color: "white", fontSize: 22 },
             headerBackTitleVisible: false,
             headerTintColor: "white",
@@ -29,11 +29,10 @@ export default function App() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="busScreen"
-            component={BusScreen}
-            options={{ headerShown: true, headerTitle: "Bus Times" }}
+            name="schedule"
+            component={FullScheduleScreen}
+            options={{ headerShown: true }}
           />
-          <Stack.Screen name="ferryScreen" component={FerryScreen} />
         </Stack.Navigator>
       </ScheduleContextProvider>
     </NavigationContainer>

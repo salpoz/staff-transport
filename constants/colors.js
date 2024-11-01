@@ -1,6 +1,14 @@
 const Colors = {
+  primary700: "#07121d",
+  primary600: "#0a1827",
   primary500: "#0c1e31",
-  borderColor: "#000000",
+  primary400: "#3d4b5a",
+  primary300: "#6d7883",
+  primary200: "#b6bcc1",
+  primary150: "#ccd0d4",
+  primary100: "#e7e9ea",
+  accent500: "#38c172",
+  background100: "#f2f2f2",
 };
 
 // blue: "#3490dc",

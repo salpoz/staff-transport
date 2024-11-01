@@ -1,10 +1,10 @@
-// app.config.js
-import "dotenv/config";
+// // app.config.js
+// import "dotenv/config";
 
-export default ({ config }) => ({
-  ...config,
-  extra: {
-    apiUrl: process.env.API_URL,
-    apiKey: process.env.API_KEY,
-  },
-});
+// export default ({ config }) => ({
+//   ...config,
+//   extra: {
+//     apiUrl: process.env.API_URL,
+//     apiKey: process.env.API_KEY,
+//   },
+// });
