@@ -2,6 +2,7 @@ import {
   FlatList,
   StyleSheet,
   View,
+  Text,
   RefreshControl,
   ActivityIndicator,
 } from "react-native";
@@ -70,6 +71,7 @@ const AllBusRoutesScreen = () => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={refreshHandler} />
         }
+        ListFooterComponent={<View style={styles.footer} />}
       />
     </View>
   );
@@ -81,11 +83,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    marginTop: 20,
   },
   center: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  footer: {
+    height: 100,
   },
 });

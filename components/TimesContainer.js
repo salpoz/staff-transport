@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import TimeWithCounter from "./TimeWithCounter";
 import { Colors } from "../constants/colors";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import {
   getCounterString,
   getNextAndPreviousTime,
@@ -16,6 +16,36 @@ const TimesContainer = ({ routeDetails }) => {
   const [prevCounter, setPrevCounter] = useState();
   const [nextNotes, setNextNotes] = useState([]);
   const [prevNotes, setPrevNotes] = useState([]);
+
+  function updateNotes() {
+    const notes = getNotes(routeDetails);
+    const { nextTime, prevTime } = getNextAndPreviousTime(routeDetails);
+
+    notes.forEach((note) => {
+      if (
+        note?.times.includes(
+          new Date(nextTime)
+            .toLocaleTimeString("en-US", { hour12: false })
+            .slice(0, 5)
+            .padStart(5, "0")
+        ) &&
+        note?.days.includes(new Date(nextTime).getDay())
+      ) {
+        setNextNotes((curr) => [note?.msg]);
+      }
+      if (
+        note?.times.includes(
+          new Date(prevTime)
+            .toLocaleTimeString("en-US", { hour12: false })
+            .slice(0, 5)
+            .padStart(5, "0")
+        ) &&
+        note?.days.includes(new Date(prevTime).getDay())
+      ) {
+        setPrevNotes((curr) => [note?.msg]);
+      }
+    });
+  }
 
   function updateTimes() {
     const { nextTime: n, prevTime: p } = getNextAndPreviousTime(routeDetails);
@@ -35,27 +65,11 @@ const TimesContainer = ({ routeDetails }) => {
   }
 
   useEffect(() => {
-    const notes = getNotes(routeDetails);
-    notes.forEach((note) => {
-      if (
-        note?.times.includes(nextTime) &&
-        note?.days.includes(new Date().getDay())
-      ) {
-        setNextNotes((curr) => [note?.msg]);
-      }
-
-      if (
-        note?.times.includes(prevTime) &&
-        note?.days.includes(new Date().getDay())
-      ) {
-        setPrevNotes((curr) => [note?.msg]);
-      }
-    });
-
+    updateNotes();
     const intervalId = setInterval(() => {
       const { nextTime: n, prevTime: p } = getNextAndPreviousTime(routeDetails);
-
       updateTimes();
+
       const nextCtr = getCounterString(new Date(n).getTime(), Date.now());
       setNextCounter(nextCtr.str);
       const prevCtr = getCounterString(new Date(p).getTime(), Date.now());
@@ -65,7 +79,7 @@ const TimesContainer = ({ routeDetails }) => {
     return () => {
       intervalId;
     };
-  }, []);
+  }, [routeDetails]);
 
   return (
     <View style={styles.timeContainer}>

@@ -29,7 +29,9 @@ const FullScheduleScreen = () => {
   const [times, setTimes] = useState(
     extractTimesFromDay(new Date(nextTime).getDay(), routeDetails.times)
   );
-  const [notes, setNotes] = useState(getInitialNotes);
+  const [notes, setNotes] = useState(
+    getNotesForDay(new Date(nextTime).getDay())
+  );
   const fadeAnim = useState(new Animated.Value(0))[0];
 
   const timeNext = new Date(nextTime);
@@ -59,6 +61,7 @@ const FullScheduleScreen = () => {
     setSelectedDay(day);
     const times = extractTimesFromDay(day, routeDetails.times);
     setTimes(times);
+    setNotes(getNotesForDay(day));
     fadeAnim.setValue(0);
     Animated.timing(fadeAnim, {
       easing: Easing.linear,
@@ -68,12 +71,9 @@ const FullScheduleScreen = () => {
     }).start();
   }
 
-  function getInitialNotes() {
+  function getNotesForDay(day) {
     const allNotes = getNotes(routeDetails);
-    const todaysNotes = allNotes.filter((note) =>
-      note.days.includes(new Date().getDay())
-    );
-
+    const todaysNotes = allNotes.filter((note) => note.days.includes(day));
     return todaysNotes;
   }
 

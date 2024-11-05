@@ -46,9 +46,13 @@ function getNextAndPreviousTime(routeDetails) {
           today.getDate() + days
         }T${timesArray[nextTimeIndex]}:00`
       );
-      //
+
       if (nextTime.getDate() - 1 === today.getDate()) {
         timesArray = extractTimesFromDay(today.getDay(), routeDetails.times);
+        if (timesArray.length === 0) {
+          today.setDate(today.getDate() - (days + 1));
+          timesArray = extractTimesFromDay(today.getDay(), routeDetails.times);
+        }
         prevTime = new Date(
           `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}T${
             timesArray[timesArray.length - 1]
@@ -56,6 +60,7 @@ function getNextAndPreviousTime(routeDetails) {
         );
       } else {
         const tempDay = new Date(today);
+
         tempDay.setDate(nextTime.getDate() - (days + 1));
         timesArray = extractTimesFromDay(tempDay.getDay(), routeDetails.times);
 
@@ -114,7 +119,7 @@ function getCounterString(startTime, endTime) {
   if (hours === 0 && minutes === 0 && seconds === 0) {
     return {
       str: "--",
-      update: true,
+      update: true, // created this to update time, but it is not being used now
     };
   }
 
